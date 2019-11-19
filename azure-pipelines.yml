@@ -25,7 +25,8 @@ steps:
 - task: MSBuild@1
   inputs:
     solution: '**/*.sln'
-    
+  displayName: 'building solution with msbuild'
+
 - task: ArchiveFiles@2
   inputs:
     rootFolderOrFile: '$(Build.BinariesDirectory)'
