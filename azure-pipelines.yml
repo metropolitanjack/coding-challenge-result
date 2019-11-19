@@ -21,6 +21,11 @@ steps:
 - script: |
     echo Some more stuff !!
   displayName: 'My more stuff script'
+
+- task: VisualStudioTestPlatformInstaller@1
+  inputs:
+    packageFeedSelector: 'nugetOrg'
+    versionSelector: 'latestPreRelease'
 - task: ExtractFiles@1
   inputs:
     archiveFilePatterns: '*.zip'
