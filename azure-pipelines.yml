@@ -21,7 +21,12 @@ steps:
 - script: |
     echo Some more stuff !!
   displayName: 'My more stuff script'
-
+- task: ExtractFiles@1
+  inputs:
+    archiveFilePatterns: '*.zip'
+    destinationFolder: '**/*'
+    cleanDestinationFolder: true
+  displayName: 'extract files from zip'
 - task: MSBuild@1
   inputs:
     solution: '**/*.sln'
