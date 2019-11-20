@@ -53,7 +53,7 @@ steps:
     rootFolderOrFile: '$(Build.Repository.LocalPath)/Code/PowerVolumeExtract.Svc/bin/${buildConfig}'
     includeRootFolder: false
     archiveType: 'zip'
-    archiveFile: '$(Build.ArtifactStagingDirectory)/$(Build.BuildId)-nodrama.zip'
+    archiveFile: '$(Build.ArtifactStagingDirectory)/$(Build.BuildId)-nodrama-${buildConfig}.zip'
     replaceExistingArchive: true
 
 
