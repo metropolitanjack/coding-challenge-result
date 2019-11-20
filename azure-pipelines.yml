@@ -29,7 +29,7 @@ steps:
 - task: ExtractFiles@1
   inputs:
     archiveFilePatterns: '*.zip'
-    destinationFolder: '\'
+    destinationFolder: '$(Build.Repository.LocalPath)/Code'
     cleanDestinationFolder: true
   displayName: 'extract files from zip'
 - task: MSBuild@1
