@@ -6,9 +6,6 @@
 trigger:
 - master
 
-variables:
-  buildConfig: 'Release'
-
 pool:
   vmImage: 'windows-latest'
   demands:
@@ -37,25 +34,14 @@ steps:
     destinationFolder: '$(Build.Repository.LocalPath)/Code'
     cleanDestinationFolder: true
   displayName: 'extract files from zip'
-- task: MSBuild@1
-  inputs:
-    solution: '**/*.sln'
-    configuration: $(buildConfig)
-  displayName: 'building solution with msbuild'
 
-- script: |
-    echo $(Build.BinariesDirectory)
-  displayName: 'echo name of binaries folder'
-  
+- template: templates/build.yml
+  parameters:
+    buildConfig: 'Debug'
 
-- task: ArchiveFiles@2
-  inputs:
-    rootFolderOrFile: '$(Build.Repository.LocalPath)/Code/PowerVolumeExtract.Svc/bin/$(buildConfig)'
-    includeRootFolder: false
-    archiveType: 'zip'
-    archiveFile: '$(Build.ArtifactStagingDirectory)/$(Build.BuildId)-nodrama-$(buildConfig).zip'
-    replaceExistingArchive: true
-
+- template: templates/build.yml
+  parameters:
+    buildConfig: 'Release'
 
 - task: PublishBuildArtifacts@1
   inputs:
