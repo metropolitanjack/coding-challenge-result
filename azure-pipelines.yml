@@ -40,7 +40,7 @@ steps:
 - task: MSBuild@1
   inputs:
     solution: '**/*.sln'
-    configuration: ${buildConfig}
+    configuration: $(buildConfig)
   displayName: 'building solution with msbuild'
 
 - script: |
@@ -50,10 +50,10 @@ steps:
 
 - task: ArchiveFiles@2
   inputs:
-    rootFolderOrFile: '$(Build.Repository.LocalPath)/Code/PowerVolumeExtract.Svc/bin/${buildConfig}'
+    rootFolderOrFile: '$(Build.Repository.LocalPath)/Code/PowerVolumeExtract.Svc/bin/$(buildConfig)'
     includeRootFolder: false
     archiveType: 'zip'
-    archiveFile: '$(Build.ArtifactStagingDirectory)/$(Build.BuildId)-nodrama-${buildConfig}.zip'
+    archiveFile: '$(Build.ArtifactStagingDirectory)/$(Build.BuildId)-nodrama-$(buildConfig).zip'
     replaceExistingArchive: true
 
 
