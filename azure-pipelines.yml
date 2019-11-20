@@ -6,6 +6,9 @@
 trigger:
 - master
 
+variables:
+  buildConfig: 'Release'
+
 pool:
   vmImage: 'windows-latest'
   demands:
@@ -37,7 +40,7 @@ steps:
 - task: MSBuild@1
   inputs:
     solution: '**/*.sln'
-    configuration: 'Release'
+    configuration: ${buildConfig}
   displayName: 'building solution with msbuild'
 
 - script: |
@@ -47,7 +50,7 @@ steps:
 
 - task: ArchiveFiles@2
   inputs:
-    rootFolderOrFile: '$(Build.Repository.LocalPath)/Code/PowerVolumeExtract.Svc/bin/Debug'
+    rootFolderOrFile: '$(Build.Repository.LocalPath)/Code/PowerVolumeExtract.Svc/bin/${buildConfig}'
     includeRootFolder: false
     archiveType: 'zip'
     archiveFile: '$(Build.ArtifactStagingDirectory)/$(Build.BuildId)-nodrama.zip'
