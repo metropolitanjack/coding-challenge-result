@@ -39,6 +39,10 @@ steps:
     solution: '**/*.sln'
   displayName: 'building solution with msbuild'
 
+- script: |
+    echo $(Build.BinariesDirectory)
+  displayName: 'echo name of binaries folder'
+  
 - task: ArchiveFiles@2
   inputs:
     rootFolderOrFile: '$(Build.BinariesDirectory)'
@@ -46,6 +50,7 @@ steps:
     archiveType: 'zip'
     archiveFile: '$(Build.ArtifactStagingDirectory)/$(Build.BuildId)-nodrama.zip'
     replaceExistingArchive: true
+
 
 - task: PublishBuildArtifacts@1
   inputs:
