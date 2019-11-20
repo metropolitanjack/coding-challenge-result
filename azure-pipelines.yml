@@ -8,6 +8,8 @@ trigger:
 
 pool:
   vmImage: 'windows-latest'
+  demands:
+    - vstest
 
 steps:
 - script: echo Hello, world!222333
