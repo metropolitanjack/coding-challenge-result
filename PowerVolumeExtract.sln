@@ -1,0 +1,35 @@
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 15
+VisualStudioVersion = 15.0.28307.852
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PowerVolumeExtract.Svc", "PowerVolumeExtract.Svc\PowerVolumeExtract.Svc.csproj", "{25BCAA33-8B68-4988-8273-B57B102BB095}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Libs", "Libs", "{D90FFA90-D42B-409E-9569-36A108A06577}"
+	ProjectSection(SolutionItems) = preProject
+		Libs\PowerService.dll = Libs\PowerService.dll
+	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PowerVolumeTest", "PowerVolumeTest\PowerVolumeTest.csproj", "{8665BB27-D5CD-4C45-8469-0AEAEF2F9BEF}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{25BCAA33-8B68-4988-8273-B57B102BB095}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{25BCAA33-8B68-4988-8273-B57B102BB095}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{25BCAA33-8B68-4988-8273-B57B102BB095}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{25BCAA33-8B68-4988-8273-B57B102BB095}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8665BB27-D5CD-4C45-8469-0AEAEF2F9BEF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8665BB27-D5CD-4C45-8469-0AEAEF2F9BEF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8665BB27-D5CD-4C45-8469-0AEAEF2F9BEF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8665BB27-D5CD-4C45-8469-0AEAEF2F9BEF}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {1FC759B4-3A0F-4BDA-B397-5154FC28B9D8}
+	EndGlobalSection
+EndGlobal
