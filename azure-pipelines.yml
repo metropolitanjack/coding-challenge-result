@@ -53,6 +53,12 @@ steps:
     searchFolder: '$(System.DefaultWorkingDirectory)'
   displayName: 'run tests on output builds'
   
+- task: PublishCodeCoverageResults@1
+  displayName: Publish coverage
+  inputs:
+    codeCoverageTool: 'Cobertura'
+    summaryFileLocation: $(Build.SourcesDirectory)/**/coverage.cobertura.xml'
+
 - task: PublishBuildArtifacts@1
   inputs:
     PathtoPublish: '$(Build.ArtifactStagingDirectory)'
