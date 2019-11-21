@@ -1,0 +1,22 @@
+parameters:
+  buildConfig: 'Release'
+  
+steps:
+- task: MSBuild@1
+  inputs:
+    solution: '**/*.sln'
+    configuration: ${{parameters.buildConfig}}
+  displayName: 'building solution with msbuild'
+
+- script: |
+    echo $(Build.BinariesDirectory)
+  displayName: 'echo name of binaries folder'
+  
+
+- task: ArchiveFiles@2
+  inputs:
+    rootFolderOrFile: '$(Build.Repository.LocalPath)/Code/PowerVolumeExtract.Svc/bin/${{parameters.buildConfig}}'
+    includeRootFolder: false
+    archiveType: 'zip'
+    archiveFile: '$(Build.ArtifactStagingDirectory)/$(Build.BuildId)-nodrama-${{parameters.buildConfig}}.zip'
+    replaceExistingArchive: true
