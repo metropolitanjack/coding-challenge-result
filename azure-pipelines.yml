@@ -10,17 +10,6 @@ pool:
   vmImage: 'windows-latest'
 
 steps:
-- script: echo Hello, world!222333
-  displayName: 'Run a one-line script'
-
-- script: |
-    echo Add other tasks to build, test, and deploy your project.
-    echo See https://aka.ms/yaml
-  displayName: 'Run a multi-line script'
-
-- script: |
-    echo Some more stuff !!
-  displayName: 'My more stuff script'
 
 - task: VisualStudioTestPlatformInstaller@1
   inputs:
