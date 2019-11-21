@@ -8,8 +8,6 @@ trigger:
 
 pool:
   vmImage: 'windows-latest'
-  demands:
-    - vstest
 
 steps:
 - script: echo Hello, world!222333
@@ -28,12 +26,6 @@ steps:
   inputs:
     packageFeedSelector: 'nugetOrg'
     versionSelector: 'latestPreRelease'
-- task: ExtractFiles@1
-  inputs:
-    archiveFilePatterns: '*.zip'
-    destinationFolder: '$(Build.Repository.LocalPath)/Code'
-    cleanDestinationFolder: true
-  displayName: 'extract files from zip'
 
 - template: templates/build.yml
   parameters:
@@ -42,16 +34,6 @@ steps:
 - template: templates/build.yml
   parameters:
     buildConfig: 'Release'
-
-- task: VSTest@2
-  inputs:
-    testSelector: 'testAssemblies'
-    testAssemblyVer2: |
-      **\*test*.dll
-      !**\*TestAdapter.dll
-      !**\obj\**
-    searchFolder: '$(System.DefaultWorkingDirectory)'
-  displayName: 'run tests on output builds'
   
 
 - task: PublishBuildArtifacts@1
