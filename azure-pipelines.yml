@@ -12,6 +12,9 @@ pool:
     - vstest
 
 steps:
+- script:
+    echo some text
+  displayName: 'some text'
 
 - task: VisualStudioTestPlatformInstaller@1
   inputs:
