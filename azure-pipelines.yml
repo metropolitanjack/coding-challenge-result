@@ -52,16 +52,6 @@ steps:
       !**\obj\**
     searchFolder: '$(System.DefaultWorkingDirectory)'
   displayName: 'run tests on output builds'
-  
-- script: |
-    reportgenerator -reports:$(Build.SourcesDirectory)/**/coverage.cobertura.xml -targetdir:$(Build.SourcesDirectory)/CodeCoverage -reporttypes:HtmlInline_AzurePipelines
-  displayName: 'Create code coverage report'
-  
-- task: PublishCodeCoverageResults@1
-  displayName: Publish coverage
-  inputs:
-    codeCoverageTool: 'Cobertura'
-    summaryFileLocation: $(Build.SourcesDirectory)/**/coverage.cobertura.xml'
 
 - task: PublishBuildArtifacts@1
   inputs:
