@@ -4,7 +4,9 @@
 # https://aka.ms/yaml
 
 trigger:
-- client-only
+  branches:
+    include:
+    - client-only
 
 pool:
   vmImage: 'windows-latest'
