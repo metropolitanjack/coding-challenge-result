@@ -64,6 +64,7 @@
     <Compile Include="Utilities.cs" />
   </ItemGroup>
   <ItemGroup>
+     <PackageReference Include="PowerVolumeInterface" Version="1.0.0-CI-20191122-110700" />
     <ProjectReference Include="..\PowerVolumeExtract.Svc\PowerVolumeExtract.Svc.csproj">
       <Project>{25bcaa33-8b68-4988-8273-b57b102bb095}</Project>
       <Name>PowerVolumeExtract.Svc</Name>
