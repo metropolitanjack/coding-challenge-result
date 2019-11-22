@@ -4,7 +4,9 @@
 # https://aka.ms/yaml
 
 trigger:
-- interface-only
+  branches:
+    include:
+    - interface-only
 
 pool:
   vmImage: 'windows-latest'
