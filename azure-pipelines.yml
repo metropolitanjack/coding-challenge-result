@@ -4,7 +4,7 @@
 # https://aka.ms/yaml
 
 trigger:
-- master
+- build-pipeline1
 
 pool:
   vmImage: 'windows-latest'
