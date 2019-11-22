@@ -21,6 +21,13 @@ steps:
     packageFeedSelector: 'nugetOrg'
     versionSelector: 'latestPreRelease'
 
+- task: NuGetCommand@2
+  inputs:
+    command: 'restore'
+    restoreSolution: '**/*.sln'
+    feedsToUse: 'select'
+    vstsFeed: '8071c395-9670-4b42-8a62-f5ed29e3344c/605c304d-ce8c-489e-bc3c-58dcff36f281'
+    
 - template: templates/build.yml
   parameters:
     buildConfig: 'Debug'
