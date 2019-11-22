@@ -1,0 +1,56 @@
+# Starter pipeline
+# Start with a minimal pipeline that you can customize to build and deploy your code.
+# Add steps that build, run tests, deploy, and more:
+# https://aka.ms/yaml
+
+trigger:
+  branches:
+    include:
+    - client-only
+
+pool:
+  vmImage: 'windows-latest'
+  demands:
+    - vstest
+
+steps:
+- script:
+    echo some text
+  displayName: 'some text'
+
+- task: VisualStudioTestPlatformInstaller@1
+  inputs:
+    packageFeedSelector: 'nugetOrg'
+    versionSelector: 'latestPreRelease'
+
+- task: NuGetCommand@2
+  inputs:
+    command: 'restore'
+    restoreSolution: '**/*.sln'
+    feedsToUse: 'select'
+    vstsFeed: '8071c395-9670-4b42-8a62-f5ed29e3344c/605c304d-ce8c-489e-bc3c-58dcff36f281'
+    
+- template: templates/build.yml
+  parameters:
+    buildConfig: 'Debug'
+
+- template: templates/build.yml
+  parameters:
+    buildConfig: 'Release'
+
+- task: VSTest@2
+  inputs:
+    testSelector: 'testAssemblies'
+    testAssemblyVer2: |
+      **\*test*.dll
+      !**\*TestAdapter.dll
+      !**\obj\**
+    searchFolder: '$(System.DefaultWorkingDirectory)'
+  displayName: 'run tests on output builds'
+  
+
+- task: PublishBuildArtifacts@1
+  inputs:
+    PathtoPublish: '$(Build.ArtifactStagingDirectory)'
+    ArtifactName: 'drop'
+    publishLocation: 'Container'
