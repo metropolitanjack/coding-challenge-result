@@ -26,7 +26,7 @@ namespace PowerVolumeExtract.Svc.Implementation
             FileInfo fi = new FileInfo(fullPath);
 
             if (fi.Exists)
-                throw new ArgumentOutOfRangeException("aggregate", "ExtractWriter::Write: filename provided for write operation already exists");
+                throw new ArgumentOutOfRangeException("aggregate", "ExtractWriter::Write: filename provided for write operation already exists, use new filename");
 
             if (aggregate == null)
                 throw new ArgumentNullException("aggregate", "ExtractWriter::Write: aggregate collection provided for write operation is null");
