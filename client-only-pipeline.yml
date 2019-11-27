@@ -60,11 +60,19 @@ stages:
   displayName: 'Deploy app'
   dependsOn: 'Build'
   jobs:
-    - job: 'Deploy'
+    - deployment: 'Deploy'
       displayName: 'Deploy app job'
-      steps:
-        - task: PublishBuildArtifacts@1
-          inputs:
-            PathtoPublish: '$(Build.ArtifactStagingDirectory)'
-            ArtifactName: 'drop2'
-            publishLocation: 'Container'
+      environment: 'Dev'
+      
+      pool:
+        vmImage: 'windows-latest'
+
+      strategy:
+        runOnce:
+          deploy:
+            steps:
+            - task: PublishBuildArtifacts@1
+              inputs:
+                PathtoPublish: '$(Build.ArtifactStagingDirectory)'
+                ArtifactName: 'drop2'
+                publishLocation: 'Container'
