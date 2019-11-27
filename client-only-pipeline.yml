@@ -68,7 +68,7 @@ stages:
       displayName: 'Deploy app job'
       environment: 'Dev'
       variables:
-        group: 'Release'
+      - group: 'Release'
       pool:
         vmImage: 'windows-latest'
 
