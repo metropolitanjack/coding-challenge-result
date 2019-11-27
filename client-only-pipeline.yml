@@ -54,7 +54,11 @@ stages:
           searchFolder: '$(System.DefaultWorkingDirectory)'
         displayName: 'run tests on output builds'
         
-
+      - task: PublishBuildArtifacts@1
+        inputs:
+          PathtoPublish: '$(Build.ArtifactStagingDirectory)'
+          ArtifactName: 'drop2'
+          publishLocation: 'Container'
 
 - stage: 'Deploy'
   displayName: 'Deploy app'
@@ -71,6 +75,13 @@ stages:
         runOnce:
           deploy:
             steps:
+            - download: current
+              artifact: drop2
+            - task: AzureRmWebAppDeployment@2
+              displayName: 'Azure Web App Deployment'
+              inputs:
+                ConnectedServiceName: ''
+                WebAppName: '$(WebAppName)' 
             - task: PublishBuildArtifacts@1
               inputs:
                 PathtoPublish: '$(Build.ArtifactStagingDirectory)'
