@@ -55,8 +55,16 @@ stages:
         displayName: 'run tests on output builds'
         
 
-      - task: PublishBuildArtifacts@1
-        inputs:
-          PathtoPublish: '$(Build.ArtifactStagingDirectory)'
-          ArtifactName: 'drop'
-          publishLocation: 'Container'
+
+- stage: 'Deploy'
+  displayName: 'Deploy app'
+  dependsOn: 'Build'
+  jobs:
+    - job: 'Deploy'
+      displayName: 'Deploy app job'
+      steps:
+        - task: PublishBuildArtifacts@1
+          inputs:
+            PathtoPublish: '$(Build.ArtifactStagingDirectory)'
+            ArtifactName: 'drop2'
+            publishLocation: 'Container'
