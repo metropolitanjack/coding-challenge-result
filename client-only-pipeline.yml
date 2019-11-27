@@ -61,7 +61,7 @@ stages:
           publishLocation: 'Container'
 
 - stage: 'Deploy'
-  displayName: 'Deploy app'
+  displayName: 'Deploy app to azure service app'
   dependsOn: 'Build'
   jobs:
     - deployment: 'Deploy'
