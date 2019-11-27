@@ -80,10 +80,7 @@ stages:
             - task: AzureRmWebAppDeployment@2
               displayName: 'Azure Web App Deployment'
               inputs:
-                ConnectedServiceName: ''
+                ConnectedServiceName: 'deployment_connection_to_temp_azure_rg'
                 WebAppName: '$(WebAppName)' 
-            - task: PublishBuildArtifacts@1
-              inputs:
-                PathtoPublish: '$(Build.ArtifactStagingDirectory)'
-                ArtifactName: 'drop2'
-                publishLocation: 'Container'
+                Package: '$(Pipeline.Workspace)/drop2//*-nodrama-Release.zip'
+
