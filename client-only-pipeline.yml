@@ -82,6 +82,6 @@ stages:
               inputs:
                 ConnectionType: 'AzureRM'
                 azureSubscription: 'deployment_connection_to_temp_azure_rg'
-                WebAppName: '$(WebAppName)'
+                WebAppName: $(WebAppName)
                 Package: '$(Pipeline.Workspace)/drop2//*-nodrama-Release.zip'
 
