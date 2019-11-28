@@ -1,7 +1,7 @@
 
 variables:
   buildConfig: 'Release'
-  releaseBranchName: 'Release2'
+  releaseBranchName: 'Release'
 
 stages:
 - stage: 'Build'
@@ -79,5 +79,33 @@ stages:
               Package: '$(Pipeline.Workspace)/drop2//*-nodrama-Release.zip'
 
 
-    
+
+- stage: 'Test'
+  displayName: 'Deploy to test environment'
+  dependsOn: 'Dev'
+  condition: |
+    and 
+    (
+      succeeded(), 
+      eq(variables['Build.SourceBranchName'], variables['releaseBranchName'])
+    )
+  jobs:
+  - deployment: Deploy
+    pool: 
+      vmImage: 'windows-latest'
+    environment: test
+    variables:
+    - group: Release
+    strategy:
+      runOnce:
+        deploy:
+          steps:
+          - download: current
+            artifact: drop2
+          - task: AzureRmWebAppDeployment@4
+            inputs:
+              ConnectionType: 'AzureRM'
+              azureSubscription: 'deployment_connection_to_temp_azure_rg'
+              WebAppName: '$(WebAppNameTest)'
+              Package: '$(Pipeline.Workspace)/drop2//*-nodrama-Release.zip'
   
