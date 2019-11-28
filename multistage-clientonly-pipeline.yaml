@@ -31,7 +31,7 @@ stages:
 
     - template: templates/build.yml
       parameters:
-      buildConfig: 'Release'
+        buildConfig: 'Release'
 
     - task: VSTest@2
       inputs:
