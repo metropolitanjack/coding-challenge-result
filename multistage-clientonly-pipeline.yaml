@@ -1,86 +1,83 @@
-# Starter pipeline
-# Start with a minimal pipeline that you can customize to build and deploy your code.
-# Add steps that build, run tests, deploy, and more:
-# https://aka.ms/yaml
 
-trigger:
-  branches:
-    include:
-    - release
+variables:
+  buildConfiguration: 'Release'
+  releaseBranchName: 'Release'
 
 stages:
 - stage: 'Build'
-  displayName: 'Build the application'
+  displayName: 'Build the web application'
   jobs:
-    - job: 'Build'
-      displayName: 'Build Job'
-      pool:
-        vmImage: 'windows-latest'
-        demands:
-          - vstest
+  - job: 'Build'
+    displayName: 'Build Job'
+    pool: 
+      vmImage: windows-latest
 
-      steps:
-      - script:
-          echo some text
-        displayName: 'some text'
+    steps:
+    - task: VisualStudioTestPlatformInstaller@1
+      inputs:
+        packageFeedSelector: 'nugetOrg'
+        versionSelector: 'latestPreRelease'
 
-      - task: VisualStudioTestPlatformInstaller@1
-        inputs:
-          packageFeedSelector: 'nugetOrg'
-          versionSelector: 'latestPreRelease'
+    - task: NuGetCommand@2
+      inputs:
+        command: 'restore'
+        restoreSolution: '**/*.sln'
+        feedsToUse: 'select'
+        vstsFeed: '8071c395-9670-4b42-8a62-f5ed29e3344c/605c304d-ce8c-489e-bc3c-58dcff36f281'
+  
+    - template: templates/build.yml
+      parameters:
+        buildConfig: 'Debug'
 
-      - task: NuGetCommand@2
-        inputs:
-          command: 'restore'
-          restoreSolution: '**/*.sln'
-          feedsToUse: 'select'
-          vstsFeed: '8071c395-9670-4b42-8a62-f5ed29e3344c/605c304d-ce8c-489e-bc3c-58dcff36f281'
-          
-      - template: templates/build.yml
-        parameters:
-          buildConfig: 'Debug'
+    - template: templates/build.yml
+      parameters:
+      buildConfig: 'Release'
 
-      - template: templates/build.yml
-        parameters:
-          buildConfig: 'Release'
-
-      - task: VSTest@2
-        inputs:
-          testSelector: 'testAssemblies'
-          testAssemblyVer2: |
-            **\*test*.dll
-            !**\*TestAdapter.dll
-            !**\obj\**
-          searchFolder: '$(System.DefaultWorkingDirectory)'
-        displayName: 'run tests on output builds'
+    - task: VSTest@2
+      inputs:
+        testSelector: 'testAssemblies'
+        testAssemblyVer2: |
+          **\*test*.dll
+          !**\*TestAdapter.dll
+          !**\obj\**
+        searchFolder: '$(System.DefaultWorkingDirectory)'
+      displayName: 'run tests on output builds'
         
-      - task: PublishBuildArtifacts@1
-        inputs:
-          PathtoPublish: '$(Build.ArtifactStagingDirectory)'
-          ArtifactName: 'drop2'
-          publishLocation: 'Container'
+    - task: PublishBuildArtifacts@1
+      inputs:
+        PathtoPublish: '$(Build.ArtifactStagingDirectory)'
+        ArtifactName: 'drop2'
+        publishLocation: 'Container'
 
-- stage: 'Deploy'
-  displayName: 'Deploy app to azure service app'
+- stage: 'Dev'
+  displayName: 'Deploy to dev environment'
   dependsOn: 'Build'
+  condition: |
+    and 
+    (
+      succeeded(), 
+      eq(variables['Build.SourceBranchName'], variables['releaseBranchName'])
+    )
   jobs:
-    - deployment: 'Deploy'
-      displayName: 'Deploy app job'
-      environment: 'Dev'
-      variables:
-      - group: 'Release'
-      pool:
-        vmImage: 'windows-latest'
+  - deployment: Deploy
+    pool: 
+      vmImage: 'windows-latest'
+    environment: dev
+    variables:
+    - group: Release
+    strategy:
+      runOnce:
+        deploy:
+          steps:
+          - download: current
+            artifact: drop2
+          - task: AzureRmWebAppDeployment@4
+            inputs:
+              ConnectionType: 'AzureRM'
+              azureSubscription: 'deployment_connection_to_temp_azure_rg'
+              WebAppName: '$(WebAppNameDev)'
+              Package: '$(Pipeline.Workspace)/drop2//*-nodrama-Release.zip'
 
-      strategy:
-        runOnce:
-          deploy:
-            steps:
-            - download: current
-              artifact: drop2
-            - task: AzureRmWebAppDeployment@4
-              inputs:
-                ConnectionType: 'AzureRM'
-                azureSubscription: 'deployment_connection_to_temp_azure_rg'
-                WebAppName: '$(WebAppName)'
-                Package: '$(Pipeline.Workspace)/drop2//*-nodrama-Release.zip'
+
+    
+  
