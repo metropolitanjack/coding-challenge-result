@@ -6,7 +6,7 @@
 trigger:
   branches:
     include:
-    - client-only
+    - release
 
 stages:
 - stage: 'Build'
