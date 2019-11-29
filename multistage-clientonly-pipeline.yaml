@@ -132,6 +132,8 @@ stages:
           - task: AzureRmWebAppDeployment@4
             inputs:
               ConnectionType: 'AzureRM'
+              deployToSlotOrASE: true
+              SlotName: 'swap2'
             #  deployToSlotOrASE: true
             #  slotName: 'swap2'
               azureSubscription: 'deployment_connection_to_temp_azure_rg'
