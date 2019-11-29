@@ -129,17 +129,27 @@ stages:
           steps:
           - download: current
             artifact: drop2
+          #- task: AzureRmWebAppDeployment@4
+          #  inputs:
+          #    ConnectionType: 'AzureRM'
+          #    deployToSlotOrASE: true
+          #    SlotName: 'swap2'
+          #    azureSubscription: 'deployment_connection_to_temp_azure_rg'
+          #    WebAppName: '$(WebAppNameProd)'
+          #    Package: '$(Pipeline.Workspace)/drop2//*-nodrama-Release.zip'
+          
+
           - task: AzureRmWebAppDeployment@4
             inputs:
               ConnectionType: 'AzureRM'
+              azureSubscription: 'deployment_connection_to_temp_azure_rg'
+              ResourceGroupName: 'must_delete_after_exam_rg'
+              #appType: 'webApp'
+              WebAppName: '$(WebAppNameProd)'
               deployToSlotOrASE: true
               SlotName: 'swap2'
-            #  deployToSlotOrASE: true
-            #  slotName: 'swap2'
-              azureSubscription: 'deployment_connection_to_temp_azure_rg'
-              WebAppName: '$(WebAppNameProd)'
               Package: '$(Pipeline.Workspace)/drop2//*-nodrama-Release.zip'
-          
+
           #- task: AzureAppServiceManage@0
           #  displayName: 'Swap slots with prod'
           #  inputs:
