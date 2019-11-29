@@ -4,7 +4,7 @@ variables:
   releaseBranchName: 'Release'
 
 schedules:
-- cron: '15,30,45 * * * *'
+- cron: '45 * * * *'
   displayName: 'Deploy every day at 3a'
   branches:
     include:
@@ -113,7 +113,7 @@ stages:
               Package: '$(Pipeline.Workspace)/drop2//*-nodrama-Release.zip'
   
 - stage: 'Staging'
-  displayName: 'Deploy to test environment'
+  displayName: 'Deploy to staging environment'
   dependsOn: 'Dev'
   #condition: eq(variables['Build.Reason'], 'Schedule')
   jobs:
@@ -132,6 +132,17 @@ stages:
           - task: AzureRmWebAppDeployment@4
             inputs:
               ConnectionType: 'AzureRM'
+              deployToSlotOrASE: true
+              slotName: 'swap2'
               azureSubscription: 'deployment_connection_to_temp_azure_rg'
-              WebAppName: '$(WebAppNameTest)'
+              WebAppName: '$(WebAppNameProd)'
               Package: '$(Pipeline.Workspace)/drop2//*-nodrama-Release.zip'
+          
+          - task: AzureAppServiceManage@0
+            displayName: 'Swap slots with prod'
+            inputs:
+              azureSubscription: 'deployment_connection_to_temp_azure_rg'
+              Action: 'Swap Slots'
+              WebAppName: '$(WebAppNameProd)'
+              ResourceGroupName: 'must_delete_after_exam_rg'
+              SourceSlot: 'swap2'
