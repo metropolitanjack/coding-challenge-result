@@ -5,7 +5,7 @@
 
 trigger:
 - master
-  path:
+  paths:
     include:
     - '*'
     exclude:
