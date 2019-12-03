@@ -5,12 +5,12 @@
 
 trigger:
 - master
-
-path:
+  path:
   include:
   - '*'
   exclude:
   - docs/*
+
 
 pr:
 - master
