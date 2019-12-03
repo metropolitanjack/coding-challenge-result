@@ -6,10 +6,10 @@
 trigger:
 - master
   path:
-  include:
-  - '*'
-  exclude:
-  - docs/*
+    include:
+    - '*'
+    exclude:
+    - docs/*
 
 
 pr:
