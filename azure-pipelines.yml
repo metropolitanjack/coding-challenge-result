@@ -10,7 +10,7 @@ pool:
   vmImage: 'ubuntu-latest'
 
 steps:
-- script: echo Hello, world!222 - this is change2 originally in branch1
+- script: echo Hello, world!222 - this is change3 originally in branch2
   displayName: 'Run a one-line script'
 
 - script: |
