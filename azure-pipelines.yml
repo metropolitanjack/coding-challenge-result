@@ -6,6 +6,12 @@
 trigger:
 - master
 
+path:
+  include:
+  - '*'
+  exclude:
+  - docs/*
+
 pr:
 - master
 
